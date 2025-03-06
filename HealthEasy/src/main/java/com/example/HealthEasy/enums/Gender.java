@@ -1,6 +1,6 @@
 package com.example.HealthEasy.enums;
 
-public enum PatientGender {
+public enum Gender {
     MALE,
     FEMALE
 }

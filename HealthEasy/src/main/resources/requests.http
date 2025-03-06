@@ -1,5 +1,117 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+### GET request to get all doctors
+GET http://localhost:8080/api/doctor
 
-###
+### POST request to create a new doctor
+POST http://localhost:8080/api/doctor
+Content-Type: application/json
+
+{
+  "name": "Dr NGABO",
+  "speciality": "Dentist"
+}
+
+### PUT request to update an existing doctor
+PUT http://localhost:8080/api/doctor/1
+Content-Type: application/json
+
+{
+  "name": "Dr Oreste",
+  "speciality": "Psychologist"
+}
+
+### DELETE request to delete a doctor
+DELETE http://localhost:8080/api/doctor/1
+
+### GET request to get all patients
+GET http://localhost:8080/api/patient
+
+### GET request to get patient by id
+GET http://localhost:8080/api/patient/1
+
+### POST request to create a new patient
+POST http://localhost:8080/api/patient
+Content-Type: application/json
+
+{
+  "name": "Oreste",
+  "email": "orestengabo1@gmail.com",
+  "gender": "MALE"
+}
+
+### PUT request to update an existing patient
+PUT http://localhost:8080/api/patient/3
+Content-Type: application/json
+
+{
+  "name": "Oreste",
+  "email": "orestengabo1@gmail.com",
+  "gender": "MALE"
+}
+
+### DELETE request to delete a patient
+DELETE http://localhost:8080/api/patient/4
+
+### GET request to get appointments
+GET http://localhost:8080/api/appointment
+
+### POST request to create a new appointment
+POST http://localhost:8080/api/appointment
+Content-Type: application/json
+
+{
+  "dateTime": "2025-03-10T14:30:00",
+  "patient": {
+    "id": 3
+  },
+  "doctor": {
+    "id": 2
+  }
+}
+
+### PUT request to cancel an appointment
+PUT http://localhost:8080/api/appointment/1/cancel
+
+### PUT request to update an appointment
+PUT http://localhost:8080/api/appointment/2
+Content-Type: application/json
+
+{
+  "doctor": {
+    "id": 3
+  },
+  "dateTime": "2025-04-15T10:00:00"
+}
+
+### PATCH request to mark appointment as completed
+PATCH http://localhost:8080/api/appointment/2/completed
+
+### GET request to get notifications
+GET http://localhost:8080/api/notification/2
+
+### PUT request to mark notification as read
+PUT http://localhost:8080/api/notification/2/1/read
+
+### DELETE request to delete notification of a doctor
+DELETE http://localhost:8080/api/notification/2/1/clear
+
+### DELETE request to delete all notifications of a doctor
+DELETE http://localhost:8080/api/notification/2/clearall
+
+### POST request to signup
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "orestengabo0@gmail.com",
+  "password": "12345",
+  "fullName": "Oreste NGABO"
+}
+
+### POST request to login
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "orestengabo0@gmail.com",
+  "password": "12345"
+}
