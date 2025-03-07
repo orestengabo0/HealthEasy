@@ -1,14 +1,16 @@
 package com.example.HealthEasy.repository;
 
 import com.example.HealthEasy.entity.User;
+import com.example.HealthEasy.enums.Role;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-    Optional<User> findById(Long id);
+public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findUserByEmail(String email);
-    Optional<User> findUserByEmailAndRoleIsNotDoctor(String userEmail);
+    Optional<User> findByUsername(String username);
+
+    User findByRole(Role role);
 }

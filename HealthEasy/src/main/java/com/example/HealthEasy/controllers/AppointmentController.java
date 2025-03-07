@@ -25,7 +25,6 @@ public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
-    private final NotificationService notificationService;
 
     public AppointmentController(AppointmentRepository appointmentRepository,
                                  DoctorRepository doctorRepository,
@@ -34,7 +33,6 @@ public class AppointmentController {
         this.appointmentRepository = appointmentRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
-        this.notificationService = notificationService;
     }
 
     @PreAuthorize("hasRole('ROLE_DOCTOR')")
@@ -87,10 +85,6 @@ public class AppointmentController {
         appointment.setDoctor(existingDoctor.get());
         appointment.setPatient(existingPatient.get());
 
-        notificationService.sendNotification(appointment.getDoctor().getId(),
-                "New appointment scheduled with " +
-                        appointment.getPatient().getName() + " on " + appointment.getDateTime());
-
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAppointment);
     }
@@ -116,10 +110,6 @@ public class AppointmentController {
                     existingAppointment.setDoctor(doctor.get());
                     existingAppointment.setDateTime(appointment.getDateTime());
                     appointmentRepository.save(existingAppointment);
-
-                    notificationService.sendNotification(doctor.get().getId(),
-                            loggedInPatient + " that recently booked an appointment has changed the date/time to " +
-                                    appointment.getDateTime());
 
                     return ResponseEntity.ok(existingAppointment);
                 }).orElseGet(()-> ResponseEntity.notFound().build());

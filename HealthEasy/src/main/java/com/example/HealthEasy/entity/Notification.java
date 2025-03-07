@@ -1,5 +1,6 @@
 package com.example.HealthEasy.entity;
 
+import com.example.HealthEasy.enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,11 +18,15 @@ public class Notification {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String message;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private NotificationType type;
 
     @Column(nullable = false)
     private boolean isRead;
