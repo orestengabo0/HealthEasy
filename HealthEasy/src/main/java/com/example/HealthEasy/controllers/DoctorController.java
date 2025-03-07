@@ -35,7 +35,6 @@ public class DoctorController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Doctor createDoctor( @RequestBody Doctor doctor){
-        doctor.setRole(Role.DOCTOR);
         return doctorRepository.save(doctor);
     }
 
