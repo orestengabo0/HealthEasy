@@ -27,13 +27,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String fullName;
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 12, unique = true)
+    @Column(name = "phone_number", nullable = false, length = 12, unique = true)
     private String phoneNumber;
 
     @Column(nullable = false)
@@ -54,11 +54,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

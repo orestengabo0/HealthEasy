@@ -42,8 +42,6 @@ public class DoctorApplication {
 
     private String certifications; // Optional field for additional certifications
 
-    private String documentPath; // File path for uploaded verification documents
-
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.PENDING;
 

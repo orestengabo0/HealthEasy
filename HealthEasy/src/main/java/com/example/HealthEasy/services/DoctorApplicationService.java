@@ -1,7 +1,6 @@
 package com.example.HealthEasy.services;
 
 import com.example.HealthEasy.Dto.DoctorApplicationDto;
-import com.example.HealthEasy.entity.Doctor;
 import com.example.HealthEasy.entity.DoctorApplication;
 import com.example.HealthEasy.entity.User;
 import com.example.HealthEasy.enums.ApplicationStatus;
@@ -9,7 +8,6 @@ import com.example.HealthEasy.enums.Role;
 import com.example.HealthEasy.repository.DoctorApplicationRepository;
 import com.example.HealthEasy.repository.DoctorRepository;
 import com.example.HealthEasy.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +18,6 @@ public class DoctorApplicationService {
     private final UserRepository userRepository;
     private final DoctorApplicationRepository doctorApplicationRepository;
     private final NotificationService notificationService;
-    private final DoctorRepository doctorRepository;
 
     public DoctorApplicationService(UserRepository userRepository,
                                     DoctorApplicationRepository doctorApplicationRepository,
@@ -28,7 +25,6 @@ public class DoctorApplicationService {
         this.userRepository = userRepository;
         this.doctorApplicationRepository = doctorApplicationRepository;
         this.notificationService = notificationService;
-        this.doctorRepository = doctorRepository;
     }
 
     public DoctorApplication submitApplication(DoctorApplicationDto applicationDto, Long userId){
@@ -37,9 +33,10 @@ public class DoctorApplicationService {
             throw new RuntimeException("User not found.");
         }
         User user = userOptional.get();
-        if(doctorApplicationRepository.findUserId(userId).isPresent()){
+        if(doctorApplicationRepository.findByUser(user).isPresent()){
             throw new RuntimeException("You have already submitted an application.");
         }
+
         DoctorApplication application = new DoctorApplication();
         application.setUser(user);
         application.setFullName(applicationDto.getFullName());
@@ -48,7 +45,6 @@ public class DoctorApplicationService {
         application.setHospital(applicationDto.getHospital());
         application.setExperienceYears(applicationDto.getExperienceYears());
         application.setCertifications(applicationDto.getCertifications());
-        application.setDocumentPath(applicationDto.getDocumentPath());
         application.setStatus(ApplicationStatus.PENDING);
         doctorApplicationRepository.save(application);
 
@@ -57,7 +53,7 @@ public class DoctorApplicationService {
         User admin = userRepository.findByRole(Role.ADMIN);
         if(admin != null){
             notificationService.sendNotificationToUser(admin,
-                    "A new doctor application has been submitted by" + user.getUsername());
+                    "A new doctor application has been submitted by" + user.getEmail());
         }
 
         return application;
@@ -78,7 +74,7 @@ public class DoctorApplicationService {
         notificationService.sendNotificationToUser(application.getUser(),
                 "Congratulations! Your application was approved. Welcome aboard!");
         notificationService.sendNotificationToUser(admin, "You recently approved "+
-                user.getFullName() + " to be a doctor.");
+                user.getEmail() + " to be a doctor.");
 
         return application;
     }
@@ -98,17 +94,19 @@ public class DoctorApplicationService {
         notificationService.sendNotificationToUser(user,
                 "Your doctor application was rejected.");
         notificationService.sendNotificationToUser(admin,
-                "You recently rejected application for "+ user.getFullName() + "!");
+                "You recently rejected application for "+ user.getEmail() + "!");
 
         return application;
     }
 
     public List<DoctorApplication> getPendingApplication(){
-        return doctorApplicationRepository.getPendingApplications();
+        return doctorApplicationRepository.findByStatus("PENDING");
     }
 
     public DoctorApplication getApplicationByUserId(Long userId) {
-        return doctorApplicationRepository.findByUserId(userId)
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+        return doctorApplicationRepository.findByUser(user)
                 .orElseThrow(() -> new RuntimeException("No application found for this user."));
     }
 }

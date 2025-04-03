@@ -34,8 +34,6 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll() // Allow public access to authentication endpoints
-                .requestMatchers("/api/doctor").hasRole("DOCTOR")
-                .requestMatchers("/api/admin").hasRole("ADMIN")
                 .anyRequest().authenticated() // Require authentication for other requests
                 .and()
                 .sessionManagement()

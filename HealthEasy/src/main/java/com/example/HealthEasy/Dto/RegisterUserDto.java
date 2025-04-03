@@ -1,6 +1,5 @@
 package com.example.HealthEasy.Dto;
 
-import com.example.HealthEasy.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,5 +16,9 @@ public class RegisterUserDto {
     private String password;
 
     @NotNull(message = "Full name is required")
-    private String fullName;
+    private String username;
+
+    @NotNull(message = "Phone number is required.")
+    @Size(min = 10, max = 12, message = "Phone number must be between 10 and 12 digits.")
+    private String phoneNumber;
 }

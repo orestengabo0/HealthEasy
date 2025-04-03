@@ -11,6 +11,5 @@ public class DoctorApplicationDto {
     private String hospital;
     private int experienceYears;
     private String certifications;
-    private String documentPath;
     private ApplicationStatus status;
 }

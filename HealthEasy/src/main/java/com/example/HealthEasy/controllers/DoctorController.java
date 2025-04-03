@@ -40,7 +40,8 @@ public class DoctorController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @Valid @RequestBody Doctor updatedDoctor){
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id,
+                                               @Valid @RequestBody Doctor updatedDoctor){
         Doctor doctor = doctorService.updateDoctor(id, updatedDoctor);
         return ResponseEntity.ok(doctor);
     }

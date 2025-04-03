@@ -2,17 +2,14 @@ package com.example.HealthEasy.controllers;
 
 import com.example.HealthEasy.Dto.DoctorApplicationDto;
 import com.example.HealthEasy.entity.DoctorApplication;
-import com.example.HealthEasy.entity.User;
 import com.example.HealthEasy.services.DoctorApplicationService;
 import com.example.HealthEasy.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +23,7 @@ public class DoctorApplicationController {
     private UserService userService;
 
     @PostMapping("/submit")
-    public ResponseEntity<?> submitApplication(@RequestBody DoctorApplicationDto
+    public ResponseEntity<?> submitApplication(@Valid @RequestBody DoctorApplicationDto
                                                            applicationDto){
         try {
             Authentication authentication = SecurityContextHolder.

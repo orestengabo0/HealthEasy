@@ -1,6 +1,5 @@
 package com.example.HealthEasy.services;
 
-import com.example.HealthEasy.Dto.DoctorDto;
 import com.example.HealthEasy.entity.Doctor;
 import com.example.HealthEasy.entity.DoctorApplication;
 import com.example.HealthEasy.entity.User;
@@ -9,7 +8,6 @@ import com.example.HealthEasy.enums.Role;
 import com.example.HealthEasy.repository.DoctorApplicationRepository;
 import com.example.HealthEasy.repository.DoctorRepository;
 import com.example.HealthEasy.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,7 +64,7 @@ public class DoctorService {
         User admin = userRepository.findByRole(Role.ADMIN);
         if (admin != null) {
             notificationService.sendNotificationToUser(admin,
-                    "You have approved " + user.getUsername() + " as a doctor.");
+                    "You have approved " + user.getEmail() + " as a doctor.");
         }
 
         return doctor;

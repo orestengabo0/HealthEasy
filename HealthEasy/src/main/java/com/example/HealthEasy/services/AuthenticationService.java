@@ -30,8 +30,9 @@ public class AuthenticationService {
     public User signup(RegisterUserDto input) {
 
         User user = new User()
-                .setFullName(input.getFullName())
+                .setUsername(input.getUsername())
                 .setEmail(input.getEmail())
+                .setPhoneNumber(input.getPhoneNumber())
                 .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRole(role);
 
@@ -45,5 +46,4 @@ public class AuthenticationService {
 
         return userRepository.findUserByEmail(input.getEmail()).orElseThrow();
     }
-
 }
